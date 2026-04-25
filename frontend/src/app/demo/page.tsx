@@ -74,7 +74,7 @@ export default function Demo() {
             <textarea
               value={transcript}
               onChange={(e) => setTranscript(e.target.value)}
-              className="w-full h-96 p-4 border border-gray-300 rounded-lg font-mono text-sm"
+              className="w-full h-96 p-4 border border-gray-300 rounded-lg font-mono text-sm text-gray-900 bg-white"
               placeholder="Enter doctor-patient conversation..."
             />
             <button
