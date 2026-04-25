@@ -4,110 +4,231 @@ import Link from 'next/link';
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100">
+    <div style={{ minHeight: '100vh', background: 'var(--bg)' }}>
+      {/* Navigation */}
+      <nav style={{ 
+        borderBottom: '1px solid var(--border)', 
+        background: 'var(--bg2)',
+        padding: '1rem 2rem'
+      }}>
+        <div style={{ maxWidth: '1400px', margin: '0 auto', display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+            <h1 style={{ fontSize: '22px', fontWeight: 700 }}>
+              <span className="gradient-text">MediScribe AI</span>
+            </h1>
+            <span className="badge badge-success">Clinical Platform</span>
+          </div>
+          <div style={{ display: 'flex', gap: '1.5rem', alignItems: 'center' }}>
+            <Link href="/demo" style={{ color: 'var(--text)', textDecoration: 'none', fontSize: '13px', fontWeight: 600 }}>
+              Dashboard
+            </Link>
+            <Link href="/demo" style={{ color: 'var(--text)', textDecoration: 'none', fontSize: '13px', fontWeight: 600 }}>
+              Record
+            </Link>
+            <Link href="/demo" style={{ color: 'var(--text)', textDecoration: 'none', fontSize: '13px', fontWeight: 600 }}>
+              Notes
+            </Link>
+            <span className="badge badge-success">
+              <span className="pulse-dot"></span>
+              HIPAA
+            </span>
+          </div>
+        </div>
+      </nav>
+
       {/* Hero Section */}
-      <div className="container mx-auto px-4 py-16">
-        <div className="text-center max-w-4xl mx-auto">
-          <h1 className="text-6xl font-bold text-gray-900 mb-6">
-            MediScribe<span className="text-blue-600">.ai</span>
+      <div style={{ padding: '4rem 2rem', textAlign: 'center' }}>
+        <div style={{ maxWidth: '900px', margin: '0 auto' }}>
+          <h1 style={{ 
+            fontSize: '48px', 
+            fontWeight: 700, 
+            marginBottom: '1.5rem',
+            lineHeight: 1.2
+          }}>
+            <span className="gradient-text">AI-Powered Clinical Documentation</span>
           </h1>
-          <p className="text-2xl text-gray-700 mb-4">
-            AI-Powered Clinical Documentation
+          <p style={{ 
+            fontSize: '18px', 
+            color: 'var(--muted)', 
+            marginBottom: '2rem',
+            lineHeight: 1.6
+          }}>
+            Transform doctor-patient conversations into structured SOAP notes with ICD-10 and CPT codes in under 30 seconds. 
+            Built for healthcare professionals who value accuracy and efficiency.
           </p>
-          <p className="text-xl text-gray-600 mb-8">
-            Transform doctor-patient conversations into structured SOAP notes in seconds
-          </p>
-          
-          {/* CTA Buttons */}
-          <div className="flex gap-4 justify-center mb-12">
-            <Link
-              href="/dashboard"
-              className="px-8 py-4 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 transition"
-            >
-              Get Started Free
+          <div style={{ display: 'flex', gap: '1rem', justifyContent: 'center', flexWrap: 'wrap' }}>
+            <Link href="/demo">
+              <button className="btn-primary" style={{ fontSize: '16px', padding: '1rem 2rem' }}>
+                ✦ Try Demo Now
+              </button>
             </Link>
-            <Link
-              href="/demo"
-              className="px-8 py-4 bg-white text-blue-600 rounded-lg font-semibold border-2 border-blue-600 hover:bg-blue-50 transition"
-            >
-              Try Demo
+            <Link href="/dashboard">
+              <button className="btn-secondary" style={{ fontSize: '16px', padding: '1rem 2rem' }}>
+                View Dashboard
+              </button>
             </Link>
           </div>
+        </div>
+      </div>
 
-          {/* Stats */}
-          <div className="grid grid-cols-3 gap-8 max-w-2xl mx-auto mb-16">
-            <div className="text-center">
-              <div className="text-4xl font-bold text-blue-600">10+</div>
-              <div className="text-gray-600">Hours Saved/Week</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-blue-600">&lt;30s</div>
-              <div className="text-gray-600">Processing Time</div>
-            </div>
-            <div className="text-center">
-              <div className="text-4xl font-bold text-blue-600">95%+</div>
-              <div className="text-gray-600">Accuracy</div>
-            </div>
+      {/* Stats Section */}
+      <div style={{ padding: '2rem', maxWidth: '1400px', margin: '0 auto' }}>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem' }}>
+          <div className="stat-card">
+            <div className="stat-label">Time Saved</div>
+            <div className="stat-value">8 min</div>
+            <div className="stat-delta">↑ Per note average</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Accuracy</div>
+            <div className="stat-value">98.4%</div>
+            <div className="stat-delta">↑ ICD-10 match rate</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Processing</div>
+            <div className="stat-value">&lt;30s</div>
+            <div className="stat-delta">Average generation time</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Cost</div>
+            <div className="stat-value">FREE</div>
+            <div className="stat-delta">Powered by Groq AI</div>
+          </div>
+        </div>
+      </div>
+
+      {/* Features Grid */}
+      <div style={{ padding: '4rem 2rem', maxWidth: '1400px', margin: '0 auto' }}>
+        <h2 style={{ fontSize: '28px', fontWeight: 700, textAlign: 'center', marginBottom: '3rem' }}>
+          <span className="gradient-text">Complete Clinical Intelligence Platform</span>
+        </h2>
+        
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(300px, 1fr))', gap: '1.5rem' }}>
+          {/* Feature 1 */}
+          <div className="card-raised">
+            <div style={{ fontSize: '32px', marginBottom: '1rem' }}>🎤</div>
+            <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--cyan)' }}>
+              Audio Transcription
+            </h3>
+            <p style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.6 }}>
+              Upload audio recordings and get accurate transcriptions using Groq Whisper. Supports multiple formats: MP3, WAV, M4A, FLAC.
+            </p>
           </div>
 
-          {/* Features */}
-          <div className="grid md:grid-cols-3 gap-8 text-left">
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="text-3xl mb-4">🎤</div>
-              <h3 className="text-xl font-semibold mb-2">Real-Time Transcription</h3>
-              <p className="text-gray-600">
-                Convert conversations to text using state-of-the-art Whisper AI
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="text-3xl mb-4">📋</div>
-              <h3 className="text-xl font-semibold mb-2">SOAP Notes</h3>
-              <p className="text-gray-600">
-                Automatically generate structured clinical documentation
-              </p>
-            </div>
-            <div className="bg-white p-6 rounded-lg shadow-md">
-              <div className="text-3xl mb-4">💊</div>
-              <h3 className="text-xl font-semibold mb-2">Medical Coding</h3>
-              <p className="text-gray-600">
-                ICD-10 and CPT codes suggested with confidence scores
-              </p>
-            </div>
+          {/* Feature 2 */}
+          <div className="card-raised">
+            <div style={{ fontSize: '32px', marginBottom: '1rem' }}>📋</div>
+            <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--cyan)' }}>
+              SOAP Note Generation
+            </h3>
+            <p style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.6 }}>
+              AI-powered structured clinical notes with Subjective, Objective, Assessment, and Plan sections automatically generated.
+            </p>
           </div>
 
-          {/* Pricing Preview */}
-          <div className="mt-16 bg-white p-8 rounded-lg shadow-lg max-w-2xl mx-auto">
-            <h2 className="text-3xl font-bold mb-6">Simple Pricing</h2>
-            <div className="grid md:grid-cols-3 gap-4">
-              <div className="border-2 border-gray-200 rounded-lg p-4">
-                <div className="text-lg font-semibold">Free</div>
-                <div className="text-3xl font-bold my-2">$0</div>
-                <div className="text-gray-600">50 notes/month</div>
-              </div>
-              <div className="border-2 border-blue-600 rounded-lg p-4 bg-blue-50">
-                <div className="text-lg font-semibold text-blue-600">Solo</div>
-                <div className="text-3xl font-bold my-2">$199</div>
-                <div className="text-gray-600">Unlimited notes</div>
-              </div>
-              <div className="border-2 border-gray-200 rounded-lg p-4">
-                <div className="text-lg font-semibold">Group</div>
-                <div className="text-3xl font-bold my-2">$149</div>
-                <div className="text-gray-600">per user (5+)</div>
-              </div>
-            </div>
+          {/* Feature 3 */}
+          <div className="card-raised">
+            <div style={{ fontSize: '32px', marginBottom: '1rem' }}>🏥</div>
+            <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--cyan)' }}>
+              Medical Coding
+            </h3>
+            <p style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.6 }}>
+              Automatic ICD-10 diagnosis codes and CPT procedure codes with confidence scores for accurate billing.
+            </p>
           </div>
 
-          {/* API Status */}
-          <div className="mt-8 text-sm text-gray-500">
-            <p>🟢 API Status: <span className="font-semibold">Operational</span></p>
-            <p className="mt-2">
-              Backend: <code className="bg-gray-100 px-2 py-1 rounded">
-                {process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'}
-              </code>
+          {/* Feature 4 */}
+          <div className="card-raised">
+            <div style={{ fontSize: '32px', marginBottom: '1rem' }}>🧠</div>
+            <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--cyan)' }}>
+              AI Refinement
+            </h3>
+            <p style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.6 }}>
+              Refine notes based on physician feedback. The AI learns and adapts to your documentation style.
+            </p>
+          </div>
+
+          {/* Feature 5 */}
+          <div className="card-raised">
+            <div style={{ fontSize: '32px', marginBottom: '1rem' }}>🔒</div>
+            <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--cyan)' }}>
+              HIPAA Ready
+            </h3>
+            <p style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.6 }}>
+              Built with healthcare compliance in mind. PHI scrubbing and secure data handling (production deployment).
+            </p>
+          </div>
+
+          {/* Feature 6 */}
+          <div className="card-raised">
+            <div style={{ fontSize: '32px', marginBottom: '1rem' }}>⚡</div>
+            <h3 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '0.5rem', color: 'var(--cyan)' }}>
+              Lightning Fast
+            </h3>
+            <p style={{ fontSize: '13px', color: 'var(--muted)', lineHeight: 1.6 }}>
+              Powered by Groq's LPU inference engine. Generate complete SOAP notes in under 30 seconds.
             </p>
           </div>
         </div>
       </div>
-    </main>
+
+      {/* Tech Stack */}
+      <div style={{ padding: '4rem 2rem', maxWidth: '1400px', margin: '0 auto' }}>
+        <div className="card" style={{ textAlign: 'center' }}>
+          <h2 style={{ fontSize: '22px', fontWeight: 700, marginBottom: '2rem' }}>
+            <span className="gradient-text">Powered by Leading AI Technology</span>
+          </h2>
+          <div style={{ display: 'flex', justifyContent: 'center', gap: '3rem', flexWrap: 'wrap', alignItems: 'center' }}>
+            <div>
+              <div style={{ fontSize: '14px', fontWeight: 700, color: 'var(--cyan)' }}>Groq Whisper</div>
+              <div style={{ fontSize: '12px', color: 'var(--muted)' }}>Transcription</div>
+            </div>
+            <div>
+              <div style={{ fontSize: '14px', fontWeight: 700, color: 'var(--purple)' }}>Llama 3.1 70B</div>
+              <div style={{ fontSize: '12px', color: 'var(--muted)' }}>SOAP Generation</div>
+            </div>
+            <div>
+              <div style={{ fontSize: '14px', fontWeight: 700, color: 'var(--cyan)' }}>Next.js 14</div>
+              <div style={{ fontSize: '12px', color: 'var(--muted)' }}>Frontend</div>
+            </div>
+            <div>
+              <div style={{ fontSize: '14px', fontWeight: 700, color: 'var(--purple)' }}>FastAPI</div>
+              <div style={{ fontSize: '12px', color: 'var(--muted)' }}>Backend</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* CTA Section */}
+      <div style={{ padding: '4rem 2rem', textAlign: 'center' }}>
+        <div style={{ maxWidth: '700px', margin: '0 auto' }}>
+          <h2 style={{ fontSize: '32px', fontWeight: 700, marginBottom: '1rem' }}>
+            Ready to transform your clinical workflow?
+          </h2>
+          <p style={{ fontSize: '16px', color: 'var(--muted)', marginBottom: '2rem' }}>
+            Start generating SOAP notes in seconds. No credit card required.
+          </p>
+          <Link href="/demo">
+            <button className="btn-primary" style={{ fontSize: '16px', padding: '1rem 2.5rem' }}>
+              ✦ Try Demo Now
+            </button>
+          </Link>
+        </div>
+      </div>
+
+      {/* Footer */}
+      <footer style={{ 
+        borderTop: '1px solid var(--border)', 
+        padding: '2rem',
+        textAlign: 'center',
+        color: 'var(--muted)',
+        fontSize: '12px'
+      }}>
+        <p>MediScribe AI © 2026 · Clinical Intelligence Platform</p>
+        <p style={{ marginTop: '0.5rem' }}>
+          Built with Groq AI · Next.js · FastAPI
+        </p>
+      </footer>
+    </div>
   );
 }

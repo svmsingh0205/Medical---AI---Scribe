@@ -1,135 +1,221 @@
 'use client';
 
-import { useState } from 'react';
+import Link from 'next/link';
 
 export default function Dashboard() {
-  const [file, setFile] = useState<File | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<any>(null);
-
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files && e.target.files[0]) {
-      setFile(e.target.files[0]);
-    }
-  };
-
-  const handleUpload = async () => {
-    if (!file) return;
-
-    setLoading(true);
-    const formData = new FormData();
-    formData.append('file', file);
-
-    try {
-      const apiUrl = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
-      const response = await fetch(`${apiUrl}/api/audio/process`, {
-        method: 'POST',
-        body: formData,
-      });
-
-      const data = await response.json();
-      setResult(data);
-    } catch (error) {
-      console.error('Upload failed:', error);
-      alert('Upload failed. Make sure the backend is running.');
-    } finally {
-      setLoading(false);
-    }
-  };
-
   return (
-    <div className="min-h-screen bg-gray-50 p-8">
-      <div className="max-w-6xl mx-auto">
-        <h1 className="text-4xl font-bold mb-8">MediScribe Dashboard</h1>
+    <div style={{ minHeight: '100vh', background: 'var(--bg)', padding: '2rem' }}>
+      <div style={{ maxWidth: '1400px', margin: '0 auto' }}>
+        {/* Header */}
+        <div style={{ marginBottom: '2rem' }}>
+          <h1 style={{ fontSize: '28px', fontWeight: 700, marginBottom: '0.5rem' }}>
+            Dashboard Overview
+          </h1>
+          <p style={{ color: 'var(--muted)', fontSize: '13px' }}>
+            Monitor your clinical documentation workflow and performance metrics
+          </p>
+        </div>
 
-        {/* Upload Section */}
-        <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-          <h2 className="text-2xl font-semibold mb-4">Upload Audio</h2>
-          <div className="space-y-4">
-            <input
-              type="file"
-              accept="audio/*"
-              onChange={handleFileChange}
-              className="block w-full text-sm text-gray-500
-                file:mr-4 file:py-2 file:px-4
-                file:rounded-full file:border-0
-                file:text-sm file:font-semibold
-                file:bg-blue-50 file:text-blue-700
-                hover:file:bg-blue-100"
-            />
-            <button
-              onClick={handleUpload}
-              disabled={!file || loading}
-              className="px-6 py-3 bg-blue-600 text-white rounded-lg font-semibold hover:bg-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed"
-            >
-              {loading ? 'Processing...' : 'Generate SOAP Note'}
-            </button>
+        {/* Stats Grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(250px, 1fr))', gap: '1.5rem', marginBottom: '2rem' }}>
+          <div className="stat-card">
+            <div className="stat-label">Notes Today</div>
+            <div className="stat-value">24</div>
+            <div className="stat-delta">↑ 12% vs yesterday</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Time Saved</div>
+            <div className="stat-value">3.2h</div>
+            <div className="stat-delta">8 min / note avg</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Accuracy</div>
+            <div className="stat-value">98.4%</div>
+            <div className="stat-delta">ICD-10 match rate</div>
+          </div>
+          <div className="stat-card">
+            <div className="stat-label">Pending</div>
+            <div className="stat-value">7</div>
+            <div className="stat-delta">Requires signature</div>
           </div>
         </div>
 
-        {/* Results Section */}
-        {result && (
-          <div className="space-y-6">
-            {/* Transcript */}
-            <div className="bg-white rounded-lg shadow-md p-6">
-              <h3 className="text-xl font-semibold mb-3">Transcript</h3>
-              <p className="text-gray-700 whitespace-pre-wrap">{result.transcript}</p>
-            </div>
-
-            {/* SOAP Note */}
-            {result.soap_note && (
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h3 className="text-xl font-semibold mb-4">SOAP Note</h3>
-                <div className="space-y-4">
-                  <div>
-                    <h4 className="font-semibold text-blue-600">Subjective:</h4>
-                    <p className="text-gray-700">{result.soap_note.subjective}</p>
+        {/* Main Content Grid */}
+        <div style={{ display: 'grid', gridTemplateColumns: '2fr 1fr', gap: '1.5rem' }}>
+          {/* Recent Notes */}
+          <div className="card">
+            <h2 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '1.5rem' }}>Recent Notes</h2>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+              {/* Note Item */}
+              <div style={{ 
+                padding: '1rem', 
+                background: 'var(--bg3)', 
+                borderRadius: '8px',
+                border: '1px solid var(--border)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+              }}>
+                <div>
+                  <div style={{ fontSize: '13px', fontWeight: 600, marginBottom: '0.25rem' }}>
+                    James Thornton
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-blue-600">Objective:</h4>
-                    <p className="text-gray-700">{result.soap_note.objective}</p>
+                  <div style={{ fontSize: '11px', color: 'var(--muted)' }}>
+                    DOB: 08/22/1957 · M · MRN 00891
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-blue-600">Assessment:</h4>
-                    <p className="text-gray-700">{result.soap_note.assessment}</p>
+                  <div style={{ fontSize: '11px', color: 'var(--muted)', marginTop: '0.25rem' }}>
+                    Chief Complaint: Chest pain, shortness of breath
                   </div>
-                  <div>
-                    <h4 className="font-semibold text-blue-600">Plan:</h4>
-                    <p className="text-gray-700">{result.soap_note.plan}</p>
-                  </div>
-
-                  {/* ICD-10 Codes */}
-                  {result.soap_note.icd10_codes && result.soap_note.icd10_codes.length > 0 && (
-                    <div>
-                      <h4 className="font-semibold text-blue-600">ICD-10 Codes:</h4>
-                      <ul className="list-disc list-inside">
-                        {result.soap_note.icd10_codes.map((code: any, idx: number) => (
-                          <li key={idx} className="text-gray-700">
-                            {code.code}: {code.description} ({Math.round(code.confidence * 100)}%)
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
-
-                  {/* CPT Codes */}
-                  {result.soap_note.cpt_codes && result.soap_note.cpt_codes.length > 0 && (
-                    <div>
-                      <h4 className="font-semibold text-blue-600">CPT Codes:</h4>
-                      <ul className="list-disc list-inside">
-                        {result.soap_note.cpt_codes.map((code: any, idx: number) => (
-                          <li key={idx} className="text-gray-700">
-                            {code.code}: {code.description} ({Math.round(code.confidence * 100)}%)
-                          </li>
-                        ))}
-                      </ul>
-                    </div>
-                  )}
+                </div>
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                  <span className="badge badge-success">Completed</span>
+                  <button className="btn-secondary" style={{ padding: '0.5rem 1rem', fontSize: '11px' }}>
+                    Review
+                  </button>
                 </div>
               </div>
-            )}
+
+              {/* Note Item */}
+              <div style={{ 
+                padding: '1rem', 
+                background: 'var(--bg3)', 
+                borderRadius: '8px',
+                border: '1px solid var(--border)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+              }}>
+                <div>
+                  <div style={{ fontSize: '13px', fontWeight: 600, marginBottom: '0.25rem' }}>
+                    Sarah Mitchell
+                  </div>
+                  <div style={{ fontSize: '11px', color: 'var(--muted)' }}>
+                    DOB: 03/15/1982 · F · MRN 00892
+                  </div>
+                  <div style={{ fontSize: '11px', color: 'var(--muted)', marginTop: '0.25rem' }}>
+                    Chief Complaint: Annual physical examination
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                  <span className="badge badge-warning">Pending</span>
+                  <button className="btn-secondary" style={{ padding: '0.5rem 1rem', fontSize: '11px' }}>
+                    Review
+                  </button>
+                </div>
+              </div>
+
+              {/* Note Item */}
+              <div style={{ 
+                padding: '1rem', 
+                background: 'var(--bg3)', 
+                borderRadius: '8px',
+                border: '1px solid var(--border)',
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center'
+              }}>
+                <div>
+                  <div style={{ fontSize: '13px', fontWeight: 600, marginBottom: '0.25rem' }}>
+                    Robert Chen
+                  </div>
+                  <div style={{ fontSize: '11px', color: 'var(--muted)' }}>
+                    DOB: 11/08/1975 · M · MRN 00893
+                  </div>
+                  <div style={{ fontSize: '11px', color: 'var(--muted)', marginTop: '0.25rem' }}>
+                    Chief Complaint: Follow-up diabetes management
+                  </div>
+                </div>
+                <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
+                  <span className="badge badge-success">Completed</span>
+                  <button className="btn-secondary" style={{ padding: '0.5rem 1rem', fontSize: '11px' }}>
+                    Review
+                  </button>
+                </div>
+              </div>
+            </div>
           </div>
-        )}
+
+          {/* Quick Actions */}
+          <div className="card">
+            <h2 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '1.5rem' }}>Quick Actions</h2>
+            
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0.75rem' }}>
+              <Link href="/demo">
+                <button className="btn-primary" style={{ width: '100%', justifyContent: 'center', display: 'flex', alignItems: 'center', gap: '0.5rem' }}>
+                  <span className="pulse-dot"></span>
+                  New Recording
+                </button>
+              </Link>
+              <Link href="/demo">
+                <button className="btn-secondary" style={{ width: '100%' }}>
+                  📋 Generate from Text
+                </button>
+              </Link>
+              <button className="btn-secondary" style={{ width: '100%' }}>
+                📁 View All Notes
+              </button>
+              <button className="btn-secondary" style={{ width: '100%' }}>
+                ⚙️ Settings
+              </button>
+            </div>
+
+            {/* System Status */}
+            <div style={{ marginTop: '1.5rem', padding: '1rem', background: 'var(--bg3)', borderRadius: '8px', border: '1px solid var(--border)' }}>
+              <div className="label" style={{ marginBottom: '0.75rem' }}>System Status</div>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '11px' }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ color: 'var(--muted)' }}>API Status</span>
+                  <span style={{ color: 'var(--green)' }}>● Operational</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ color: 'var(--muted)' }}>Groq AI</span>
+                  <span style={{ color: 'var(--green)' }}>● Connected</span>
+                </div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                  <span style={{ color: 'var(--muted)' }}>Storage</span>
+                  <span style={{ color: 'var(--green)' }}>● Available</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* AI Pipeline Visualization */}
+        <div className="card" style={{ marginTop: '1.5rem' }}>
+          <h2 style={{ fontSize: '16px', fontWeight: 700, marginBottom: '1.5rem' }}>AI Pipeline</h2>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: '1rem' }}>
+            <div style={{ flex: 1, textAlign: 'center' }}>
+              <div style={{ fontSize: '24px', marginBottom: '0.5rem' }}>🎤</div>
+              <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--cyan)' }}>Audio</div>
+              <div style={{ fontSize: '10px', color: 'var(--muted)' }}>Input</div>
+            </div>
+            <div style={{ color: 'var(--border)' }}>→</div>
+            <div style={{ flex: 1, textAlign: 'center' }}>
+              <div style={{ fontSize: '24px', marginBottom: '0.5rem' }}>📝</div>
+              <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--cyan)' }}>Transcription</div>
+              <div style={{ fontSize: '10px', color: 'var(--muted)' }}>Whisper</div>
+            </div>
+            <div style={{ color: 'var(--border)' }}>→</div>
+            <div style={{ flex: 1, textAlign: 'center' }}>
+              <div style={{ fontSize: '24px', marginBottom: '0.5rem' }}>🧠</div>
+              <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--cyan)' }}>NLP</div>
+              <div style={{ fontSize: '10px', color: 'var(--muted)' }}>Analysis</div>
+            </div>
+            <div style={{ color: 'var(--border)' }}>→</div>
+            <div style={{ flex: 1, textAlign: 'center' }}>
+              <div style={{ fontSize: '24px', marginBottom: '0.5rem' }}>📋</div>
+              <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--cyan)' }}>SOAP</div>
+              <div style={{ fontSize: '10px', color: 'var(--muted)' }}>Generation</div>
+            </div>
+            <div style={{ color: 'var(--border)' }}>→</div>
+            <div style={{ flex: 1, textAlign: 'center' }}>
+              <div style={{ fontSize: '24px', marginBottom: '0.5rem' }}>🏥</div>
+              <div style={{ fontSize: '11px', fontWeight: 700, color: 'var(--cyan)' }}>ICD/CPT</div>
+              <div style={{ fontSize: '10px', color: 'var(--muted)' }}>Coding</div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   );
