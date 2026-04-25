@@ -7,7 +7,12 @@ from groq import Groq
 from loguru import logger
 from typing import Dict, Any, Optional
 
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+def get_groq_client():
+    """Get Groq client instance"""
+    api_key = os.getenv("GROQ_API_KEY")
+    if not api_key:
+        raise ValueError("GROQ_API_KEY environment variable is not set")
+    return Groq(api_key=api_key)
 
 SOAP_SYSTEM_PROMPT = """You are an expert medical scribe AI. Your task is to convert doctor-patient conversation transcripts into structured SOAP notes.
 
@@ -56,6 +61,7 @@ async def generate_soap_note(
     """
     try:
         logger.info(f"Generating SOAP note for {specialty} specialty")
+        client = get_groq_client()
         
         # Build context-aware prompt
         context_str = ""
@@ -109,6 +115,7 @@ async def refine_soap_note(
     Refine SOAP note based on physician feedback
     """
     try:
+        client = get_groq_client()
         prompt = f"""Original SOAP Note:
 {json.dumps(soap_note, indent=2)}
 

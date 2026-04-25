@@ -6,7 +6,12 @@ from groq import Groq
 from loguru import logger
 from typing import Dict, Any
 
-client = Groq(api_key=os.getenv("GROQ_API_KEY"))
+def get_groq_client():
+    """Get Groq client instance"""
+    api_key = os.getenv("GROQ_API_KEY")
+    if not api_key:
+        raise ValueError("GROQ_API_KEY environment variable is not set")
+    return Groq(api_key=api_key)
 
 async def transcribe_audio(audio_file_path: str, language: str = "en") -> Dict[str, Any]:
     """
@@ -21,6 +26,7 @@ async def transcribe_audio(audio_file_path: str, language: str = "en") -> Dict[s
     """
     try:
         logger.info(f"Starting transcription for: {audio_file_path}")
+        client = get_groq_client()
         
         with open(audio_file_path, "rb") as file:
             transcription = client.audio.transcriptions.create(
